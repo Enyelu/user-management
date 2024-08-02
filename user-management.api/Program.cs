@@ -3,6 +3,7 @@ using user_management.api.Extensions;
 using user_management.api.Middlewares;
 using user_management.api.Seeder;
 using user_management.core;
+using user_management.core.Shared;
 using user_management.infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,9 +20,12 @@ builder.Services.AddCors(c =>
     c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
+builder.Services.ConfigureApplicationServices(builder.Configuration);
 builder.Services.ConfigureApplicationDatabase(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.AddApplicationCore();
+
+builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
 
 var app = builder.Build();
 
