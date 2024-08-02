@@ -20,15 +20,15 @@ namespace user_management.api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("confirm-password")]
-        public async Task<IActionResult> ConfirmPassword([FromRoute] string tenantId)
+        [HttpPatch("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromRoute] string searchParameter)
         {
             var response = await Mediator.Send(new object());
             return Ok(response);
         }
 
-        [HttpPatch("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromRoute] string searchParameter)
+        [HttpGet("confirm-Email")]
+        public async Task<IActionResult> ConfirmEmail([FromRoute] object request)
         {
             var response = await Mediator.Send(new object());
             return Ok(response);

@@ -20,13 +20,6 @@ namespace user_management.api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("tenantId")]
-        public async Task<IActionResult> FetchUsersByTenantId([FromRoute] string tenantId)
-        {
-            var response = await Mediator.Send(new object());
-            return Ok(response);
-        }
-
         [HttpGet("searchParameter")]
         public async Task<IActionResult> FetchUserBySearchParameter([FromRoute] string searchParameter)
         {
