@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using user_management.api.Extensions;
+using user_management.api.Seeder;
+using user_management.infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureApplicationDatabase(builder.Configuration);
 builder.Services.ConfigureIdentity();
 
 var app = builder.Build();
@@ -18,6 +22,24 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationContext>();
+
+        context.Database.Migrate();
+        await DataSeeder.SeedData(context);
+
+    }
+    catch (Exception ex)
+    {
+        // Log errors or handle exceptions
+        Console.WriteLine(ex.Message);
+    }
 }
 
 app.UseHttpsRedirection();
