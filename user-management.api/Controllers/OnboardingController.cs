@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using user_management.core.Commands.Onboarding;
 
 namespace user_management.api.Controllers
 {
@@ -27,17 +28,18 @@ namespace user_management.api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("confirm-Email")]
-        public async Task<IActionResult> ConfirmEmail([FromRoute] object request)
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromRoute] string email, string token)
         {
             var response = await Mediator.Send(new object());
             return Ok(response);
         }
 
         [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp([FromBody] object request)
+        [ProducesResponseType(typeof(string), 200)]
+        public async Task<IActionResult> SignUp([FromBody] HandleSignUp.Command request)
         {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(request);
             return Ok(response);
         }
     }
