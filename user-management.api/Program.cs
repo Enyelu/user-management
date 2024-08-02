@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using user_management.api.Extensions;
+using user_management.api.Middlewares;
 using user_management.api.Seeder;
 using user_management.infrastructure;
 
@@ -11,6 +12,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
 
 builder.Services.ConfigureApplicationDatabase(builder.Configuration);
 builder.Services.ConfigureIdentity();
@@ -24,6 +30,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Configure the HTTP request pipeline.
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+app.ConfigureExceptionHandler();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
