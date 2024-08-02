@@ -18,6 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\user-management.core\user-management.core.csproj" />
+    <ProjectReference Include="..\user-management.domain\user-management.domain.csproj" />
+    <ProjectReference Include="..\user-management.infrastructure\user-management.infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

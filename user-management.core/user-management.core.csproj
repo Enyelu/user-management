@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\user-management.domain\user-management.domain.csproj" />
+    <ProjectReference Include="..\user-management.infrastructure\user-management.infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
