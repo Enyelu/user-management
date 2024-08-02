@@ -9,7 +9,7 @@ namespace user_management.api.Extensions
         {
             services.AddDbContext<ApplicationContext>(options =>
             {
-                options.UseSqlServer(config.GetConnectionString("default"));
+                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
         }
     }
