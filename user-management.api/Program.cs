@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using user_management.api.Extensions;
 using user_management.api.Middlewares;
 using user_management.api.Seeder;
+using user_management.core;
 using user_management.infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ builder.Services.AddCors(c =>
 
 builder.Services.ConfigureApplicationDatabase(builder.Configuration);
 builder.Services.ConfigureIdentity();
+builder.Services.AddApplicationCore();
 
 var app = builder.Build();
 
