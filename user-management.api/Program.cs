@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using user_management.api.Extensions;
 using user_management.api.Middlewares;
-using user_management.api.Seeder;
 using user_management.core;
 using user_management.core.Shared;
+using user_management.domain.Entities;
 using user_management.infrastructure;
+using user_management.infrastructure.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,9 +47,11 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationContext>();
+        var appuser = services.GetRequiredService<UserManager<AppUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
         context.Database.Migrate();
-        await DataSeeder.SeedData(context);
+        await DataSeeder.SeedData(context, appuser, roleManager);
 
     }
     catch (Exception ex)

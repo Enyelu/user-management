@@ -25,6 +25,7 @@ namespace user_management.core.Commands.Onboarding
             public string UserName { get; set; }
             public string Gender { get; set; }
             public string Avatar { get; set; }
+            public string Email { get; set; }
             public string PhoneNumber { get; set; }
             public string Password { get; set; }
             public bool IsTenantStaff { get; set; }
@@ -65,15 +66,17 @@ namespace user_management.core.Commands.Onboarding
                 if (role == null)
                     return GenericResponse<string>.Fail($"Role with Id {request.RoleId} not found. Please enter correct value and retry...");
 
-                var address = _mapper.Map<Address>(request.Address);
                 var appUser = _mapper.Map<AppUser>(request);
+                var address = _mapper.Map<Address>(request.Address);
+                address.CreatedBy = appUser.Id;
+                address.ModifiedBy = appUser.Id;
                 appUser.Address = address;
 
                 var password = EncryptionHelper.Decrypt(request.Password, _settings.CipherKeyIvPhrase);
                 var response = await _userManager.CreateAsync(appUser, password);
 
                 if(!response.Succeeded)
-                    return GenericResponse<string>.Fail("Registration not successful. Retry...");
+                    return GenericResponse<string>.Fail($"Registration not successful because {string.Join(",", response.Errors.Select(x => x.Description))}", 400);
 
                 await _userManager.AddToRoleAsync(appUser, role.Name!);
 
@@ -106,6 +109,8 @@ namespace user_management.core.Commands.Onboarding
                 };
 
                 var result = await _mailService.SendMailAsync(mail);
+                if(!result)
+                    _logger.LogError($"Unable to send email confirmation nessage for created user {request.UserName} at {DateTime.UtcNow}.");
 
                 _logger.LogInformation($"Created user {request.UserName} at {DateTime.UtcNow} successfully");
                 return GenericResponse<string>.Success("Success", "Registration was successful.");

@@ -12,10 +12,10 @@ namespace user_management.domain.Entities
         public bool IsActive { get; set; }
         public bool IsTenantStaff { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
-        public string RefreshToken { get; set; }
-        public DateTime RefereshTokenExpiry { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTime DateModified { get; set; } = DateTime.UtcNow;
+        public string? RefreshToken { get; set; }
+        public DateTime? RefereshTokenExpiry { get; set; }
         public Address Address { get; set; }
     }
 }
