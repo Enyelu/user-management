@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using user_management.domain.Entities;
 using EnumGender = user_management.domain.Enums;
 

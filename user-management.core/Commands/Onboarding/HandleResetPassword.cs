@@ -7,6 +7,7 @@ using System.Text;
 using user_management.core.Shared;
 using user_management.domain.Entities;
 using user_management.infrastructure.Services.Interfaces;
+using user_management.infrastructure.Shared;
 
 namespace user_management.core.Commands.Onboarding
 {

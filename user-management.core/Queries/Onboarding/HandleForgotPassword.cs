@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Azure;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
@@ -9,8 +7,8 @@ using System.Text;
 using user_management.core.Shared;
 using user_management.domain.Entities;
 using user_management.domain.Models;
-using user_management.infrastructure;
 using user_management.infrastructure.Services.Interfaces;
+using user_management.infrastructure.Shared;
 
 namespace user_management.core.Queries.Onboarding
 {

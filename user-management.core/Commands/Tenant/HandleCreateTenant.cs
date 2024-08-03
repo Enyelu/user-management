@@ -7,6 +7,7 @@ using user_management.core.Shared;
 using user_management.domain.Models;
 using user_management.infrastructure;
 using user_management.infrastructure.Services.Interfaces;
+using user_management.infrastructure.Shared;
 using EntityModels = user_management.domain.Entities;
 
 namespace user_management.core.Commands.Tenant
