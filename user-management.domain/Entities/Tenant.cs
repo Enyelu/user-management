@@ -3,7 +3,8 @@
     public class Tenant : BaseEntity
     {
         public string Name { get; set; }
-        public List<Guid> LockIds { get; set; } = new List<Guid>();
+        public string Email { get; set; }
+        public List<string> LockIds { get; set; } = new List<string>();
         public ICollection<Staff> StaffMembers {  get; set; } = new List<Staff>();
     }
 }

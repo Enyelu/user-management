@@ -121,7 +121,7 @@ namespace user_management.infrastructure.Seeder
             var Tenant = new Tenant
             {
                 Name = "ShellBP",
-                LockIds = new List<Guid> { Guid.Parse("18de3b66-ec93-44f4-99c0-0485e57b328e") },
+                LockIds = new List<string> { "JEer5oU8zS3oA8Iwxu6aLrMoW8Ua3sq5GQKDhcNqow8HYoeIXNptHIQAYkfPlHiJ" },
                 StaffMembers = new List<Staff>
                 {
                     new Staff{AppUserId = Guid.Parse(appuser.Id)}
