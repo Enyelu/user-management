@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using user_management.core.Commands.Onboarding;
+using user_management.core.Commands.Tenant;
 using user_management.core.DataTransferObjects;
 using user_management.core.Queries.User;
 using user_management.domain.Entities;
@@ -15,6 +16,7 @@ namespace user_management.core.Profiles
             CreateMap<Address, AddressDto>().ReverseMap();
             CreateMap<HandleFetchUserBySearchParameter.Result, AppUser>().ReverseMap();
             CreateMap<HandleResetPassword.Command, PasswordRestDto>().ReverseMap();
+            CreateMap<HandleCreateTenant.Command, Tenant>().ReverseMap();
         }
     }
 }
