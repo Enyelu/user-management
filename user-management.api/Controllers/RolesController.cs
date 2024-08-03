@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using user_management.core.Queries.Role;
 
 namespace user_management.api.Controllers
 {
@@ -11,17 +12,17 @@ namespace user_management.api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("id")]
-        public async Task<IActionResult> FetchRoleById([FromRoute] string id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> FetchRoleById([FromRoute]string id)
         {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(new HandleFetchRoleById.Query { RoleId = id});
             return Ok(response);
         }
 
         [HttpGet]
-        public async Task<IActionResult> FetchRoles([FromRoute] string tenantId)
+        public async Task<IActionResult> FetchRoles()
         {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(new HandleFetchRoles.Query());
             return Ok(response);
         }
 
