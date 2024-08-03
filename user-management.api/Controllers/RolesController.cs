@@ -40,9 +40,9 @@ namespace user_management.api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRole([FromBody] object request)
+        public async Task<IActionResult> CreateRole([FromBody]CreateRoleDto request)
         {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(new HandleCreateRole.Command { Name = request.RoleName});
             return Ok(response);
         }
     }
