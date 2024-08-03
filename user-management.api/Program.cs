@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using user_management.api.Extensions;
 using user_management.api.Middlewares;
 using user_management.core;
@@ -26,10 +27,17 @@ builder.Services.ConfigureApplicationServices(builder.Configuration);
 builder.Services.ConfigureApplicationDatabase(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.AddApplicationCore();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
 
+//Configure logger
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .WriteTo.Seq(context.Configuration["Serilog:WriteTo:0:Args:serverUrl"]));
+
 var app = builder.Build();
+Log.Information("Application is starting");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -62,9 +70,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
