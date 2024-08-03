@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using user_management.core.Queries.User;
 
 namespace user_management.api.Controllers
 {
@@ -13,17 +14,10 @@ namespace user_management.api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("id")]
-        public async Task<IActionResult> FetchUserById([FromRoute] string id)
+        [HttpGet("{searchParameter}")]
+        public async Task<IActionResult> FetchUserBySearchParameter([FromRoute]string searchParameter)
         {
-            var response = await Mediator.Send(new object());
-            return Ok(response);
-        }
-
-        [HttpGet("searchParameter")]
-        public async Task<IActionResult> FetchUserBySearchParameter([FromRoute] string searchParameter)
-        {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(new HandleFetchUserBySearchParameter.Query { SearchParameter = searchParameter});
             return Ok(response);
         }
     }
