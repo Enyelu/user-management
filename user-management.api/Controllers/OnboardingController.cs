@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Onboarding;
+using user_management.core.Queries.Onboarding;
 
 namespace user_management.api.Controllers
 {
@@ -15,14 +17,14 @@ namespace user_management.api.Controllers
         }
 
         [HttpGet("forgot-password")]
-        public async Task<IActionResult> ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword([FromQuery]string email)
         {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(new HandleForgotPassword.Query{ Email = email});
             return Ok(response);
         }
 
         [HttpPatch("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromRoute] string searchParameter)
+        public async Task<IActionResult> ResetPassword([FromQuery]string email, [FromQuery]string token)
         {
             var response = await Mediator.Send(new object());
             return Ok(response);

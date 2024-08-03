@@ -21,7 +21,7 @@ namespace user_management.core.Commands.Onboarding
             public readonly IMapper _mapper;
             private readonly UserManager<AppUser> _userManager;
 
-            public Handler(ApplicationContext dbContext, IMapper mapper, UserManager<AppUser> userManager)
+            public Handler(IMapper mapper, UserManager<AppUser> userManager)
             {
                 _mapper = mapper;
                 _userManager = userManager;

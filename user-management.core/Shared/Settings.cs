@@ -5,5 +5,6 @@
         public string CipherKeyIvPhrase { get; set; }
         public string ApplicationBaseUrl { get; set; }
         public string ConfirmEmailUrl { get; set; }
+        public string ResetPasswordEmailUrl { get; set; }
     }
 }
