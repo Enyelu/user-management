@@ -1,35 +1,43 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using user_management.core.Shared;
-using user_management.infrastructure;
 
 namespace user_management.core.Queries.Role
 {
     public class HandleFetchRoles
     {
-        public class Query : IRequest<GenericResponse<Result>>
+        public class Query : IRequest<GenericResponse<List<Result>>>
         {
-
         }
 
         public class Result
         {
-
+            public string Id { get; set; }
+            public string Name { get; set; }
         }
-
-        public class Handler : IRequestHandler<Query, GenericResponse<Result>>
+        public class Handler : IRequestHandler<Query, GenericResponse<List<Result>>>
         {
-            public readonly IMapper _mapper;
-            private readonly ApplicationContext _dbContext;
+            private readonly IMapper _mapper;
+            private readonly ILogger<Handler> _logger;
+            private readonly RoleManager<IdentityRole> _roleManager;
 
-            public Handler(ApplicationContext dbContext, IMapper mapper)
+            public Handler(RoleManager<IdentityRole> roleManager, IMapper mapper, ILogger<Handler> logger)
             {
-                _dbContext = dbContext;
                 _mapper = mapper;
+                _logger = logger;
+                _roleManager = roleManager;
             }
-            public async Task<GenericResponse<Result>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<GenericResponse<List<Result>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return default;
+                var role = await _roleManager.Roles.ToListAsync();
+                if (role == null || role.Count <= 0)
+                    return GenericResponse <List<Result>>.Fail($"No role(s) found");
+
+                var mappedRole = _mapper.Map<List<Result>>(role);
+                return GenericResponse <List<Result>>.Success(mappedRole, $"Success");
             }
         }
     }

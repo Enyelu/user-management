@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Tenant;
 using user_management.core.DataTransferObjects;
+using user_management.core.Queries.Tenant;
 
 namespace user_management.api.Controllers
 {
@@ -15,10 +16,10 @@ namespace user_management.api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> FetchTenantById([FromRoute] string id)
         {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(new HandleFetchTenantById.Query { TenantId = id});
             return Ok(response);
         }
 
