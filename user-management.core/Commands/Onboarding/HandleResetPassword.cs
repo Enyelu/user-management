@@ -19,12 +19,6 @@ namespace user_management.core.Commands.Onboarding
             public string NewPassword { get; set; }
             public string ConfirmNewPassword { get; set; }
         }
-
-        public class Result
-        {
-
-        }
-
         public class Handler : IRequestHandler<Command, GenericResponse<string>>
         {
             private readonly Settings _settings;

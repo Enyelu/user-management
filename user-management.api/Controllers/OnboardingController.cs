@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Onboarding;
+using user_management.core.DataTransferObjects;
 using user_management.core.Queries.Onboarding;
 
 namespace user_management.api.Controllers
@@ -23,9 +24,10 @@ namespace user_management.api.Controllers
         }
 
         [HttpPatch("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromBody] HandleResetPassword.Command request)
+        public async Task<IActionResult> ResetPassword([FromBody] PasswordRestDto request)
         {
-            var response = await Mediator.Send(request);
+            var mappedRequest = _mapper.Map<HandleResetPassword.Command>(request);
+            var response = await Mediator.Send(mappedRequest);
             return Ok(response);
         }
 
