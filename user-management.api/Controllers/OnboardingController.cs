@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Onboarding;
 using user_management.core.Queries.Onboarding;
@@ -24,9 +23,9 @@ namespace user_management.api.Controllers
         }
 
         [HttpPatch("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromQuery]string email, [FromQuery]string token)
+        public async Task<IActionResult> ResetPassword([FromBody] HandleResetPassword.Command request)
         {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(request);
             return Ok(response);
         }
 
