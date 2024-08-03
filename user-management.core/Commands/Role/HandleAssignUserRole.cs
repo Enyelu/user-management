@@ -1,5 +1,4 @@
-﻿using Azure;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using user_management.core.Shared;
@@ -56,8 +55,8 @@ namespace user_management.core.Commands.Role
                     Subject = "Role Assignment",
                     Attechments = null,
                     Body = ApplicationConstants.RoleAssignmentMsg
-                    .Replace("Name", user.FirstName + " " + user.LastName, StringComparison.CurrentCultureIgnoreCase)
-                    .Replace("roleName", role.Name, StringComparison.CurrentCultureIgnoreCase)
+                    .Replace("Name", $"{user.FirstName}  {user.LastName}", StringComparison.CurrentCultureIgnoreCase)
+                    .Replace("roleValue", role.Name, StringComparison.CurrentCultureIgnoreCase)
                 };
 
                 var result = await _mailService.SendMailAsync(mail);

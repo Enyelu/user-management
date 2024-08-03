@@ -3,11 +3,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Linq;
 using user_management.core.Shared;
 using user_management.domain.Models;
 using user_management.infrastructure;
 using user_management.infrastructure.Services.Interfaces;
+using user_management.infrastructure.Shared;
 
 namespace user_management.core.Commands.Tenant
 {

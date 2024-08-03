@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using user_management.api.Extensions;
 using user_management.api.Middlewares;
 using user_management.core;
-using user_management.core.Shared;
 using user_management.domain.Entities;
 using user_management.infrastructure;
 using user_management.infrastructure.Seeder;
+using user_management.infrastructure.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 

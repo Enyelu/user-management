@@ -12,6 +12,7 @@ using user_management.domain.Entities;
 using user_management.domain.Models;
 using user_management.infrastructure;
 using user_management.infrastructure.Services.Interfaces;
+using user_management.infrastructure.Shared;
 
 namespace user_management.core.Commands.Onboarding
 {
