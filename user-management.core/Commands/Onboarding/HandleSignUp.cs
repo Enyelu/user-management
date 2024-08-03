@@ -110,10 +110,10 @@ namespace user_management.core.Commands.Onboarding
 
                 var result = await _mailService.SendMailAsync(mail);
                 if(!result)
-                    _logger.LogError($"Unable to send email confirmation nessage for created user {request.UserName} at {DateTime.UtcNow}.");
+                    _logger.LogError($"Unable to send email confirmation message for created user {request.UserName} at {DateTime.UtcNow}.");
 
                 _logger.LogInformation($"Created user {request.UserName} at {DateTime.UtcNow} successfully");
-                return GenericResponse<string>.Success("Success", "Registration was successful.");
+                return GenericResponse<string>.Success("Success", "Registration was successful, please check your email to complete process.");
             }
         }
     }
