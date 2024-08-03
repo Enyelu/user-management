@@ -55,7 +55,8 @@ namespace user_management.core.Queries.Tenant
                         LastName =users.LastName,
                         Gender = users.Gender,
                         Avatar = users.Avatar,
-                        IsActive = users.IsActive
+                        IsActive = users.IsActive,
+                        Email = users.Email
                     }).ToListAsync();
 
                 mappedRole.Staff = staffMembers;
