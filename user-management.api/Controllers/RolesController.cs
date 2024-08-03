@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using user_management.core.Commands.Role;
+using user_management.core.DataTransferObjects;
 using user_management.core.Queries.Role;
 
 namespace user_management.api.Controllers
@@ -27,9 +29,13 @@ namespace user_management.api.Controllers
         }
 
         [HttpPatch("assign")]
-        public async Task<IActionResult> AssignUserRole([FromRoute] string searchParameter)
+        public async Task<IActionResult> AssignUserRole([FromBody] AssignUserRoleDto request)
         {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(new HandleAssignUserRole.Command 
+            { 
+                Email = request.Email, 
+                RoleId = request.RoleId
+            });
             return Ok(response);
         }
 
