@@ -31,7 +31,7 @@ namespace user_management.api.Controllers
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string email, [FromQuery]string token)
         {
-            var response = await Mediator.Send(new object());
+            var response = await Mediator.Send(new HandleConfirmEmail.Command { Email = email, Token = token});
             return Ok(response);
         }
 
