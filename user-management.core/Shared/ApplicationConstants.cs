@@ -1,7 +1,4 @@
-﻿using System;
-using user_management.domain.Entities;
-
-namespace user_management.core.Shared
+﻿namespace user_management.core.Shared
 {
     public static class ApplicationConstants
     {

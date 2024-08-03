@@ -55,7 +55,7 @@ namespace user_management.core.Commands.Role
                     ToEmail = request.Email,
                     Subject = "Role Assignment",
                     Attechments = null,
-                    Body = ApplicationConstants.EmailConfirmationMsg
+                    Body = ApplicationConstants.RoleAssignmentMsg
                     .Replace("Name", user.FirstName + " " + user.LastName, StringComparison.CurrentCultureIgnoreCase)
                     .Replace("roleName", role.Name, StringComparison.CurrentCultureIgnoreCase)
                 };
