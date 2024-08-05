@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Tenant;
 using user_management.core.DataTransferObjects;
 using user_management.core.Queries.Tenant;
+using user_management.core.Shared;
 
 namespace user_management.api.Controllers
 {
@@ -24,6 +25,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> CreateTenent([FromBody] CreateTenantDto request)
         {
             var response = await Mediator.Send(new HandleCreateTenant.Command 
@@ -35,6 +37,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPatch("add-lock")]
+        [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> AddLockToTenant([FromBody] AddLockToTenantDto request)
         {
             var response = await Mediator.Send(new HandleAddLockToTenant.Command 

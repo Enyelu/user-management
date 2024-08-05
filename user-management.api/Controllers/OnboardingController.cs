@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Onboarding;
 using user_management.core.DataTransferObjects;
 using user_management.core.Queries.Onboarding;
+using user_management.core.Shared;
 
 namespace user_management.api.Controllers
 {
@@ -17,6 +18,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpGet("forgot-password")]
+        [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> ForgotPassword([FromQuery]string email)
         {
             var response = await Mediator.Send(new HandleForgotPassword.Query{ Email = email});
@@ -24,6 +26,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPatch("reset-password")]
+        [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> ResetPassword([FromBody] PasswordRestDto request)
         {
             var mappedRequest = _mapper.Map<HandleResetPassword.Command>(request);
@@ -32,6 +35,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpGet("confirm-email")]
+        [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string email, [FromQuery]string token)
         {
             var response = await Mediator.Send(new HandleConfirmEmail.Command { Email = email, Token = token});
@@ -39,7 +43,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPost("sign-up")]
-        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> SignUp([FromBody] HandleSignUp.Command request)
         {
             var response = await Mediator.Send(request);
