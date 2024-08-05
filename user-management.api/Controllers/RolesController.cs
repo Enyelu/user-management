@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Role;
 using user_management.core.DataTransferObjects;
 using user_management.core.Queries.Role;
+using user_management.core.Shared;
 
 namespace user_management.api.Controllers
 {
@@ -22,6 +23,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(GenericResponse<List<HandleFetchRoles.Result>>), 200)]
         public async Task<IActionResult> FetchRoles()
         {
             var response = await Mediator.Send(new HandleFetchRoles.Query());
@@ -29,6 +31,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPatch("assign")]
+        [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> AssignUserRole([FromBody] AssignUserRoleDto request)
         {
             var response = await Mediator.Send(new HandleAssignUserRole.Command 
@@ -40,6 +43,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> CreateRole([FromBody]CreateRoleDto request)
         {
             var response = await Mediator.Send(new HandleCreateRole.Command { Name = request.RoleName});
