@@ -4,7 +4,7 @@ using user_management.domain.Entities;
 
 namespace user_management.infrastructure
 {
-    public class ApplicationContext : IdentityDbContext<AppUser>
+    public class ApplicationContext : IdentityDbContext<AppUser, ApplicationRole, string>
     {
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Gender> Genders { get; set; }

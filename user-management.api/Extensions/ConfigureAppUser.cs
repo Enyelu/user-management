@@ -8,7 +8,7 @@ namespace user_management.api.Extensions
     {
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            var builder = services.AddIdentity<AppUser, IdentityRole>(options =>
+            var builder = services.AddIdentity<AppUser, ApplicationRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequireDigit = true;
@@ -17,6 +17,7 @@ namespace user_management.api.Extensions
                 options.Password.RequiredLength = 8;
                 options.SignIn.RequireConfirmedEmail = true;
             })
+            .AddRoleManager<RoleManager<ApplicationRole>>()
             .AddEntityFrameworkStores<ApplicationContext>()
             .AddDefaultTokenProviders();
         }

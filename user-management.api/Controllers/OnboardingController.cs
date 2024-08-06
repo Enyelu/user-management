@@ -19,6 +19,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpGet("forgot-password")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> ForgotPassword([FromQuery]string email)
         {
@@ -27,6 +28,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPatch("reset-password")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> ResetPassword([FromBody] PasswordRestDto request)
         {
@@ -36,6 +38,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpGet("confirm-email")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string email, [FromQuery]string token)
         {
@@ -44,6 +47,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPost("sign-up")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> SignUp([FromBody] HandleSignUp.Command request)
         {

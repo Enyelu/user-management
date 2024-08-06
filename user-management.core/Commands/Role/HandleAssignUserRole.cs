@@ -14,16 +14,17 @@ namespace user_management.core.Commands.Role
         {
             public string Email { get; set; }
             public string RoleId { get; set; }
+            public string TenantId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, GenericResponse<string>>
         {
             private readonly UserManager<AppUser> _userManager;
-            private readonly RoleManager<IdentityRole> _roleManager;
+            private readonly RoleManager<ApplicationRole> _roleManager;
             private readonly IMailService _mailService;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager,
+            public Handler(RoleManager<ApplicationRole> roleManager, UserManager<AppUser> userManager,
                  IMailService mailService, ILogger<Handler> logger)
             {
                 _logger = logger;
@@ -44,6 +45,9 @@ namespace user_management.core.Commands.Role
 
                 if (role == null)
                     return GenericResponse<string>.Fail($"Role assignment failed because role with Id {request.RoleId} does not exist", 400);
+
+                if(role.CreatedBy != request.TenantId)
+                    return GenericResponse<string>.Fail($"Unauthorized", 401);
 
                 var response = await _userManager.AddToRoleAsync(user, role.Name!);
                 if (!response.Succeeded)

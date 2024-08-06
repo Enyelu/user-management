@@ -120,7 +120,6 @@ namespace user_management.infrastructure.Seeder
             var Tenant = new Tenant
             {
                 Name = "ShellBP",
-                LockIds = new List<string> { "JEer5oU8zS3oA8Iwxu6aLrMoW8Ua3sq5GQKDhcNqow8HYoeIXNptHIQAYkfPlHiJ" },
                 StaffMembers = new List<Staff>
                 {
                     new Staff{AppUserId = Guid.Parse(appuser.Id)}

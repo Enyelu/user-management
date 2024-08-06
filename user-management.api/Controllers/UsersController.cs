@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using user_management.core.Queries.User;
 
@@ -15,6 +16,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpGet("{searchParameter}")]
+        [Authorize(Roles = "TenantSuperAdmin,TenantAdmin,SuperAdmin,Admin")]
         public async Task<IActionResult> FetchUserBySearchParameter([FromRoute]string searchParameter)
         {
             var response = await Mediator.Send(new HandleFetchUserBySearchParameter.Query { SearchParameter = searchParameter});
