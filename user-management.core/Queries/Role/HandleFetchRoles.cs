@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using user_management.core.Shared;
+using user_management.infrastructure;
 
 namespace user_management.core.Queries.Role
 {
@@ -11,6 +11,7 @@ namespace user_management.core.Queries.Role
     {
         public class Query : IRequest<GenericResponse<List<Result>>>
         {
+            public string TenantId {  get; set; }
         }
 
         public class Result
@@ -22,21 +23,33 @@ namespace user_management.core.Queries.Role
         {
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
-            private readonly RoleManager<IdentityRole> _roleManager;
+            private readonly ApplicationContext _context;
 
-            public Handler(RoleManager<IdentityRole> roleManager, IMapper mapper, ILogger<Handler> logger)
+            public Handler(ApplicationContext context, IMapper mapper, ILogger<Handler> logger)
             {
                 _mapper = mapper;
                 _logger = logger;
-                _roleManager = roleManager;
+                _context = context;
             }
             public async Task<GenericResponse<List<Result>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var role = await _roleManager.Roles.ToListAsync();
-                if (role == null || role.Count <= 0)
+                var query = _context.Roles.AsQueryable();
+
+                if (!string.IsNullOrWhiteSpace(request.TenantId))
+                {
+                    query = query.Where(x => x.CreatedBy == request.TenantId);
+                }
+                else
+                {
+                    query = query.Where(x => x.CreatedBy == null);
+                }
+
+                var roles = await query.ToListAsync(cancellationToken);
+
+                if (roles == null || roles.Count <= 0)
                     return GenericResponse <List<Result>>.Fail($"No role(s) found");
 
-                var mappedRole = _mapper.Map<List<Result>>(role);
+                var mappedRole = _mapper.Map<List<Result>>(roles);
                 return GenericResponse <List<Result>>.Success(mappedRole, $"Success");
             }
         }

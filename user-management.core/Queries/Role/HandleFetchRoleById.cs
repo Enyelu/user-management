@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using user_management.core.Shared;
+using user_management.infrastructure;
 
 namespace user_management.core.Queries.Role
 {
@@ -12,6 +12,7 @@ namespace user_management.core.Queries.Role
         public class Query : IRequest<GenericResponse<Result>>
         {
             public string RoleId { get; set; }
+            public string TenantId { get; set; }
         }
 
         public class Result
@@ -23,17 +24,29 @@ namespace user_management.core.Queries.Role
         {
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
-            private readonly RoleManager<IdentityRole> _roleManager;
+            private readonly ApplicationContext _context;
 
-            public Handler(RoleManager<IdentityRole> roleManager, IMapper mapper, ILogger<Handler> logger)
+            public Handler(ApplicationContext context, IMapper mapper, ILogger<Handler> logger)
             {
                 _mapper = mapper;
                 _logger = logger;
-                _roleManager = roleManager;
+                _context = context;
             }
             public async Task<GenericResponse<Result>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var role = await _roleManager.Roles.FirstOrDefaultAsync(x => x.Id == request.RoleId);
+                var query = _context.Roles.AsQueryable();
+
+                if (!string.IsNullOrWhiteSpace(request.TenantId))
+                {
+                    query = query.Where(x => x.CreatedBy == request.TenantId);
+                }
+                else
+                {
+                    query = query.Where(x => x.CreatedBy == null);
+                }
+
+                var role = await query.FirstOrDefaultAsync(r => r.Id == request.RoleId, cancellationToken);
+
                 if (role == null)
                     return GenericResponse<Result>.Fail($"RoleId {request.RoleId} is invalid");
 
