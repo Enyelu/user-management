@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Role;
 using user_management.core.DataTransferObjects;
@@ -23,6 +24,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "TenantSuperAdmin,SuperAdmin")]
         [ProducesResponseType(typeof(GenericResponse<List<HandleFetchRoles.Result>>), 200)]
         public async Task<IActionResult> FetchRoles()
         {
@@ -31,6 +33,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPatch("assign")]
+        [Authorize(Roles = "TenantSuperAdmin,SuperAdmin")]
         [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> AssignUserRole([FromBody] AssignUserRoleDto request)
         {
@@ -43,6 +46,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "TenantSuperAdmin,TenantAdmin,SuperAdmin,Admin")]
         [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> CreateRole([FromBody]CreateRoleDto request)
         {

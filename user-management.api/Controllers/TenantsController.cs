@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Tenant;
 using user_management.core.DataTransferObjects;
@@ -18,6 +19,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "TenantSuperAdmin,SuperAdmin,Admin")]
         public async Task<IActionResult> FetchTenantById([FromRoute] string id)
         {
             var response = await Mediator.Send(new HandleFetchTenantById.Query { TenantId = id});
@@ -25,6 +27,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> CreateTenent([FromBody] CreateTenantDto request)
         {
@@ -37,6 +40,7 @@ namespace user_management.api.Controllers
         }
 
         [HttpPatch("add-lock")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(GenericResponse<string>), 200)]
         public async Task<IActionResult> AddLockToTenant([FromBody] AddLockToTenantDto request)
         {
