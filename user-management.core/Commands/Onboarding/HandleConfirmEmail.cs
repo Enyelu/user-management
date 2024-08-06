@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using user_management.core.Shared;
 using user_management.domain.Entities;
-using user_management.infrastructure;
 
 namespace user_management.core.Commands.Onboarding
 {
@@ -40,7 +39,7 @@ namespace user_management.core.Commands.Onboarding
                 if(response.Succeeded)
                     return GenericResponse<string>.Success("Success", "Email confirmation completed");
 
-                return GenericResponse<string>.Fail("Email confirmation was unsuccessful. Try again");
+                return GenericResponse<string>.Fail($"Email confirmation was unsuccessful because {string.Join(",", response.Errors.Select(x => x.Description))}.");
             }
         }
     }

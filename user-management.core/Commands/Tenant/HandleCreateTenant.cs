@@ -18,6 +18,7 @@ namespace user_management.core.Commands.Tenant
         {
             public string Name { get; set; }
             public string Email { get; set; }
+            public string UserId { get; set; }
         }
         public class Handler : IRequestHandler<Command, GenericResponse<string>>
         {
@@ -44,8 +45,10 @@ namespace user_management.core.Commands.Tenant
                     return GenericResponse<string>.Fail("Tenant already exist", 400);
 
                 var tenant = _mapper.Map<EntityModels.Tenant>(request);
+                tenant.CreatedBy = request.UserId;
 
                 _dbContext.Tenants.Add(tenant);
+
                 await _dbContext.SaveChangesAsync();
 
                 var mail = new EmailRequest()

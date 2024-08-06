@@ -27,6 +27,7 @@ namespace user_management.core.Queries.User
             public string Avatar { get; set; }
             public bool IsActive { get; set; }
             public bool IsTenantStaff { get; set; }
+            public string TenantId { get; set; }
             public DateTime DateOfBirth { get; set; }
             public DateTime DateCreated { get; set; }
             public DateTime DateModified { get; set; }
@@ -61,8 +62,15 @@ namespace user_management.core.Queries.User
                 if (user == null)
                     return GenericResponse<Result>.Fail($"User with search sarameter {request.SearchParameter} not found");
 
+                var tenantId = _dbContext.StaffMembers
+                    .Include(y => y.Tenant)
+                    .Where(x => x.AppUserId == Guid.Parse(user.Id))
+                    ?.Select(z => z.Tenant.Id)
+                    ?.FirstOrDefault();
+
                 var mappedUser = _mapper.Map<Result>(user);
                 mappedUser.Address = _mapper.Map<AddressDto>(user.Address);
+                mappedUser.TenantId = tenantId;
 
                 _logger.LogInformation($"Retrieved user with search parameter: {request.SearchParameter} successfully");
                 return GenericResponse<Result>.Success(mappedUser, "Success");
