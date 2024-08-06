@@ -30,6 +30,9 @@ builder.Services.AddApplicationCore();
 builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
 
+builder.Services.ConfigureAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
+
 //Configure logger
 builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Configuration(context.Configuration)
@@ -70,6 +73,12 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
 app.Run();

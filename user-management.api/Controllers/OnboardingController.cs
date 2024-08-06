@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using user_management.core.Commands.Onboarding;
 using user_management.core.DataTransferObjects;
