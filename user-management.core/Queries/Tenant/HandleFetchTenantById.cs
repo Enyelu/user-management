@@ -19,7 +19,6 @@ namespace user_management.core.Queries.Tenant
         {
             public string Name { get; set; }
             public string Email { get; set; }
-            public List<string> LockIds { get; set; }
             public List<StaffDto> Staff { get; set; }
         }
 

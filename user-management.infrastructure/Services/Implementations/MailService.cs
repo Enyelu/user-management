@@ -19,36 +19,44 @@ namespace user_management.infrastructure.Services.Implementations
         }
         public async Task<bool> SendMailAsync(EmailRequest emailRequest)
         {
-            var emailPayload = new
+            try
             {
-                sender = new
+                var emailPayload = new
                 {
-                    name = _settings.EmailSenderName,
-                    email = _settings.EmailSenderEmail,
-                },
-                to = new[]
+                    sender = new
+                    {
+                        name = _settings.EmailSenderName,
+                        email = _settings.EmailSenderEmail,
+                    },
+                    to = new[]
                 {
                     new { email = emailRequest.ToEmail}
                 },
-                subject = emailRequest.Subject,
-                htmlContent = emailRequest.Body,
-            };
+                    subject = emailRequest.Subject,
+                    htmlContent = emailRequest.Body,
+                };
 
             var jsonContent = new StringContent(JsonSerializer.Serialize(emailPayload), Encoding.UTF8,"application/json");
 
-            // Set the request headers
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _client.DefaultRequestHeaders.Add("api-key", _settings.EmailSenderAppKey);
+                // Set the request headers
+                _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                _client.DefaultRequestHeaders.Add("api-key", _settings.EmailSenderAppKey);
 
-            // Send the POST request
-            var response = await _client.PostAsync("", jsonContent);
+                // Send the POST request
+                var response = await _client.PostAsync("", jsonContent);
 
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception)
             {
+
                 return false;
             }
         }
