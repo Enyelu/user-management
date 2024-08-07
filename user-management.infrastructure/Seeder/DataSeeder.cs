@@ -6,7 +6,7 @@ namespace user_management.infrastructure.Seeder
 {
     public class DataSeeder
     {
-        public static async Task SeedData(ApplicationContext dbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedData(ApplicationContext dbContext, UserManager<AppUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             if (!dbContext.Roles.Any())
             {
@@ -30,7 +30,7 @@ namespace user_management.infrastructure.Seeder
             }
         }
 
-        public static async Task AddRoles(ApplicationContext dbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task AddRoles(ApplicationContext dbContext, UserManager<AppUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             //Standard Roles
             List<string> roles = new List<string>
@@ -45,7 +45,7 @@ namespace user_management.infrastructure.Seeder
 
             foreach (var role in roles)
             {
-                await roleManager.CreateAsync(new IdentityRole { Name = role });
+                await roleManager.CreateAsync(new ApplicationRole { Name = role });
             }
         }
 
